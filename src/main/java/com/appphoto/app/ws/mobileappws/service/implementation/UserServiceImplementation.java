@@ -4,9 +4,11 @@ import com.appphoto.app.ws.mobileappws.io.repositories.UserRepository;
 import com.appphoto.app.ws.mobileappws.io.entity.UserEntity;
 import com.appphoto.app.ws.mobileappws.service.UserService;
 import com.appphoto.app.ws.mobileappws.shared.Utils;
+import com.appphoto.app.ws.mobileappws.shared.dto.AddressDto;
 import com.appphoto.app.ws.mobileappws.shared.dto.UserDto;
 import com.appphoto.app.ws.mobileappws.ui.model.response.ErrorMessage;
 import com.appphoto.app.ws.mobileappws.ui.model.response.ErrorMessages;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,8 +40,17 @@ public class UserServiceImplementation implements UserService {
 
         if(userRepository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record already exists");
 
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(user, userEntity);
+        for(int i=0; i < user.getAddresses().size(); i++) {
+            AddressDto address = user.getAddresses().get(i);
+            address.setUserDetails(user);
+            address.setAddressId(utils.generateAddressId(30));
+            user.getAddresses().set(i, address);
+        }
+        //UserEntity userEntity = new UserEntity();
+        //BeanUtils.copyProperties(user, userEntity);
+        ModelMapper modelMapper = new ModelMapper();
+        UserEntity userEntity = modelMapper.map(user, UserEntity.class);
+
 
         String publicUserId = utils.generateUserId(30);
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -47,8 +58,9 @@ public class UserServiceImplementation implements UserService {
 
         UserEntity storedUserDetails =  userRepository.save(userEntity);
 
-        UserDto returnValue = new UserDto();
-        BeanUtils.copyProperties(storedUserDetails, returnValue);
+        UserDto returnValue = modelMapper.map(storedUserDetails, UserDto.class);
+       // UserDto returnValue = new UserDto();
+       // BeanUtils.copyProperties(storedUserDetails, returnValue);
 
         return returnValue;
     }

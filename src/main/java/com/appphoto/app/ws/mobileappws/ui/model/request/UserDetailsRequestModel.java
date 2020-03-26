@@ -1,23 +1,34 @@
 package com.appphoto.app.ws.mobileappws.ui.model.request;
 
+import java.util.List;
+
 //Convert incoming data from json document to java object
 public class UserDetailsRequestModel {
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
+    private List<AddressRequestModel> addresses;
+
+    public List<AddressRequestModel> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressRequestModel> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
     public String getEmail() {
         return email;

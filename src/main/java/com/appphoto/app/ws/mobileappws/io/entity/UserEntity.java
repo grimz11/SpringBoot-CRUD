@@ -1,14 +1,13 @@
 package com.appphoto.app.ws.mobileappws.io.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name="users")
 public class UserEntity implements Serializable {
-    private static final long serialVersionUID= 2L;
+
+    private static final long serialVersionUID = -6964848928417740479L;
     @Id
     @GeneratedValue
     private long id;
@@ -17,10 +16,10 @@ public class UserEntity implements Serializable {
     private String userId;
 
     @Column(nullable = false, length = 50)
-    private String firstname;
+    private String firstName;
 
     @Column(nullable = false, length = 50)
-    private String lastname;
+    private String lastName;
 
     @Column(nullable = false, length = 100)
     private String email;
@@ -32,6 +31,9 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     private Boolean getEmailVerificationStatus = false;
+
+    @OneToMany(mappedBy = "userDetails", cascade=CascadeType.ALL)
+    private List<AddressEntity> addresses;
 
     public long getId() {
         return id;
@@ -50,19 +52,19 @@ public class UserEntity implements Serializable {
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
 
     public String getEmail() {
@@ -95,5 +97,13 @@ public class UserEntity implements Serializable {
 
     public void setGetEmailVerificationStatus(Boolean getEmailVerificationStatus) {
         this.getEmailVerificationStatus = getEmailVerificationStatus;
+    }
+
+    public List<AddressEntity> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
     }
 }

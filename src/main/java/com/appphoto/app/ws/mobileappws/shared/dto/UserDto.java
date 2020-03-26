@@ -1,18 +1,32 @@
 package com.appphoto.app.ws.mobileappws.shared.dto;
 
+import com.appphoto.app.ws.mobileappws.ui.model.request.AddressRequestModel;
+
 import java.io.Serializable;
+import java.util.List;
+
 //Shared data across the classes
 public class UserDto implements Serializable {
-    private static final long serialVersionUID= 1L;
+
+    private static final long serialVersionUID = -3441177775981172420L;
     private long id;
     private String userId;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String encryptedPassword;
     private String emailVerificationToken;
     private Boolean emailVerificationStatus = false;
+    private List<AddressDto> addresses;
+
+    public List<AddressDto> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressDto> addresses) {
+        this.addresses = addresses;
+    }
 
     public long getId() {
         return id;
@@ -27,16 +41,16 @@ public class UserDto implements Serializable {
         this.userId = userId;
     }
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
     public String getEmail() {
         return email;

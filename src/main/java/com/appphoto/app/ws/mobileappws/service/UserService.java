@@ -1,9 +1,9 @@
 package com.appphoto.app.ws.mobileappws.service;
 
-        import com.appphoto.app.ws.mobileappws.shared.dto.UserDto;
-        import org.springframework.security.core.userdetails.UserDetailsService;
+import com.appphoto.app.ws.mobileappws.shared.dto.UserDto;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-        import java.util.List;
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
   UserDto createUser(UserDto user);
