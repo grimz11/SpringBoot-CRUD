@@ -73,8 +73,8 @@ public class UserServiceImplementation implements UserService {
         if(userEntity == null)
             throw new UsernameNotFoundException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 
-        userEntity.setFirstname(user.getFirstname());
-        userEntity.setLastname(user.getLastname());
+        userEntity.setFirstName(user.getFirstname());
+        userEntity.setLastName(user.getLastname());
         UserEntity updatedUserDetails = userRepository.save(userEntity);
         BeanUtils.copyProperties(updatedUserDetails, returnValue);
 

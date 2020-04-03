@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("users") //http://localhost:8080/users
+//@CrossOrigin(origins = "*")
 public class UserController {
     @Autowired
     UserService userService;
@@ -90,27 +92,37 @@ public class UserController {
         List<UserRest> returnValue = new ArrayList<>();
 
         List<UserDto> users = userService.getUsers(page, limit);
-
+        ModelMapper modelMapper = new ModelMapper();
         for (UserDto userDto : users) {
             UserRest userModel = new UserRest();
-            BeanUtils.copyProperties(userDto, userModel);
+            modelMapper.map(userDto, userModel);
             returnValue.add(userModel);
         }
 
         return returnValue;
     }
+    @GetMapping(path="/addresses",produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
+    public List<AddressRest> getUserAddresses(@RequestParam(value="userId", required = false) String userIdParam,
+                                              @RequestParam(value="country", required = false) String countryParam,
+                                              @RequestParam(value="addressId",required = false) String addressIdParam,
+                                              @RequestParam(value="city", required = false) String cityParam,
+                                              @RequestParam(value="postal", required = false) String postalParam,
+                                              @RequestParam(value="type", required = false) String typeParam) {
 
-    @GetMapping(path="/{id}/addresses", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public List<AddressRest> getUserAddresses(@PathVariable String id) {
         List<AddressRest> returnValue = new ArrayList<>();
-        List<AddressDto> addressDto = addressService.getAddresses(id);
-
-        if(addressDto != null && !addressDto.isEmpty()) {
-            java.lang.reflect.Type listType = new TypeToken<List<AddressRest>>() {
-            }.getType();
-            returnValue = new ModelMapper().map(addressDto, listType);
+        if(userIdParam != null || !userIdParam.isEmpty()) {
+            List<AddressDto> addressDto = addressService.getAddressesFromParam(userIdParam,countryParam,addressIdParam,
+                    cityParam
+                    , postalParam,typeParam);
+            if(addressDto != null && !addressDto.isEmpty()) {
+                java.lang.reflect.Type listType = new TypeToken<List<AddressRest>>() {
+                }.getType();
+                returnValue = new ModelMapper().map(addressDto, listType);
+            }
         }
         return returnValue;
+
     }
 
     @GetMapping(path="/{id}/addresses/{addressId}", produces = {MediaType.APPLICATION_XML_VALUE,

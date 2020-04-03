@@ -35,6 +35,9 @@ public class UserEntity implements Serializable {
     @OneToMany(mappedBy = "userDetails", cascade=CascadeType.ALL)
     private List<AddressEntity> addresses;
 
+    @OneToMany(mappedBy = "postDetails", cascade = CascadeType.ALL)
+    private List<PostEntity> posts;
+
     public long getId() {
         return id;
     }
@@ -51,20 +54,20 @@ public class UserEntity implements Serializable {
         this.userId = userId;
     }
 
-    public String getFirstname() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastName = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -105,5 +108,13 @@ public class UserEntity implements Serializable {
 
     public void setAddresses(List<AddressEntity> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<PostEntity> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostEntity> posts) {
+        this.posts = posts;
     }
 }
